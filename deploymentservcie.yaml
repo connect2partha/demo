@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demoApp-deployment
+  labels:
+    app: demoApp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demoApp
+  template:
+    metadata:
+      labels:
+        app: demoApp
+    spec:
+      containers:
+        - name: demoAppServer
+          image: connect2partha/demoAppS:latest
+          ports:
+            - containerPort: 3000
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: demoApp-service
+spec:
+  selector:
+    app: demoApp
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 3000
+      nodePort: 31110
+      

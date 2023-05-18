@@ -3,6 +3,10 @@ pipeline {
 	tools {
         jdk 'openjdk17'
     }
+    environment {
+        ARTIFACTORY_ACCESS_TOKEN = credentials('artifactory-access-token')
+        JFROG_PASSWORD = credentials('jfrog-password')
+    }
 	stages {
 		stage('Build'){
 			steps {
@@ -17,6 +21,11 @@ pipeline {
                     bat 'mvn test'
                 }
 			}
+		}
+		stage('Upload to jFrog Repository'){
+            steps{
+                sh 'jf rt upload --url http://localhost:8082/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/demo-0.0.1-SNAPSHOT.jar test_repository/'
+            }
 		}
 		stage('Deploy') {
 			steps {
