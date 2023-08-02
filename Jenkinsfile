@@ -1,13 +1,12 @@
 pipeline {
 	agent any
 	tools {
-        jdk 'openjdk17'
+        jdk 'openjdk11'
         maven 'jenkins_maven'
     }
     environment {
         ARTIFACTORY_ACCESS_TOKEN = credentials('artifactory-access-token')
         JFROG_PASSWORD = credentials('jfrog-password')
-        //mavenHome = tool 'jenkins_maven'
     }
 	stages {
 		stage('Build'){
