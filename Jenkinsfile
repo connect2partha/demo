@@ -2,7 +2,7 @@ pipeline {
 	agent any
 	tools {
         jdk 'openjdk17'
-        mvn 'jenkins_maven'
+        maven 'jenkins_maven'
     }
     environment {
         ARTIFACTORY_ACCESS_TOKEN = credentials('artifactory-access-token')
