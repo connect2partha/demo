@@ -6,20 +6,17 @@ pipeline {
     environment {
         ARTIFACTORY_ACCESS_TOKEN = credentials('artifactory-access-token')
         JFROG_PASSWORD = credentials('jfrog-password')
+        mavenHome = tool 'jenkins_maven'
     }
 	stages {
 		stage('Build'){
 			steps {
-                withMaven(maven : 'jenkins_maven') {
-                    bat 'mvn clean install -DskipTests'
-                }
+                bat 'mvn clean install -DskipTests'
 			}
 		}
 		stage('Test'){
 			steps{
-                withMaven(maven : 'jenkins_maven') {
-                    bat 'mvn test'
-                }
+                bat 'mvn test'
 			}
 		}
 		stage('Upload to jFrog Repository'){
@@ -29,9 +26,7 @@ pipeline {
 		}
 		stage('Deploy') {
 			steps {
-			    withMaven(maven : 'jenkins_maven') {
-                    bat 'mvn jar:jar deploy:deploy'
-                }
+			    bat 'mvn jar:jar deploy:deploy'
 			}
 		}
 	}
