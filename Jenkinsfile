@@ -7,6 +7,7 @@ pipeline {
     environment {
         ARTIFACTORY_ACCESS_TOKEN = credentials('artifactory-access-token')
         JFROG_PASSWORD = credentials('jfrog-password')
+        mavenHome = tool 'jenkins_maven'
     }
 	stages {
 		stage('Build'){
