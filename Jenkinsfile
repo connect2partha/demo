@@ -12,14 +12,14 @@ pipeline {
 	stages {
 		stage('Build'){
 			steps {
-			    withMaven(maven : 'jenkins_maven') {
+			    withMaven(maven : 'mvn') {
                     sh 'mvn clean install -DskipTests'
                 }
 			}
 		}
 		stage('Test'){
 			steps {
-                withMaven(maven : 'jenkins_maven') {
+                withMaven(maven : 'mvn') {
                     sh 'mvn test'
                 }
 			}
@@ -31,7 +31,7 @@ pipeline {
 		}
 		stage('Deploy') {
 			steps {
-			    withMaven(maven : 'jenkins_maven') {
+			    withMaven(maven : 'mvn') {
 			        sh 'mvn jar:jar deploy:deploy'
 			    }
 			}
