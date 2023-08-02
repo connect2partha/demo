@@ -2,7 +2,7 @@ pipeline {
 	agent any
 	tools {
         jdk 'openjdk17'
-        maven 'jenkins_maven'
+        mvn 'jenkins_maven'
     }
     environment {
         ARTIFACTORY_ACCESS_TOKEN = credentials('artifactory-access-token')
@@ -12,16 +12,12 @@ pipeline {
 	stages {
 		stage('Build'){
 			steps {
-			    withMaven(maven : 'mvn') {
-                    sh 'mvn clean install -DskipTests'
-                }
+			    sh 'mvn clean install -DskipTests'
 			}
 		}
 		stage('Test'){
 			steps {
-                withMaven(maven : 'mvn') {
-                    sh 'mvn test'
-                }
+                sh 'mvn test'
 			}
 		}
 		stage('Upload to jFrog Repository'){
@@ -31,9 +27,7 @@ pipeline {
 		}
 		stage('Deploy') {
 			steps {
-			    withMaven(maven : 'mvn') {
-			        sh 'mvn jar:jar deploy:deploy'
-			    }
+			    sh 'mvn jar:jar deploy:deploy'
 			}
 		}
 	}
